@@ -1,73 +1,63 @@
 package websocket.chat;
 
 
-/**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
- */
 
-public class EnvironmentMessage extends Message
+public class EnvironmentMessage extends Message 
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+	private final int type = Message.ENVIRONMENT;
 	
-	public final int Type = 0;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	private String pcList;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	private String npcList;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	
 	private String roomDesc;
+
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+	private String[] pcList;
+
 	
-	private String exitList;
+	private String[] npcList;
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
+
+	private String[] exitList;
+	
+
 	public EnvironmentMessage(){
 		super();
 	}
 
 	@Override
 	protected int getType() {
-		// TODO Auto-generated method stub
-		return 0;
+		return type;
 	}
 
+	public String getRoomDesc() {
+		return roomDesc;
+	}
+
+	public void setRoomDesc(String roomDesc) {
+		this.roomDesc = roomDesc;
+	}
+
+	public String[] getPcList() {
+		return pcList;
+	}
+
+	public void setPcList(String[] pcList) {
+		this.pcList = pcList;
+	}
+
+	public String[] getNpcList() {
+		return npcList;
+	}
+
+	public void setNpcList(String[] npcList) {
+		this.npcList = npcList;
+	}
+
+	public String[] getExitList() {
+		return exitList;
+	}
+
+	public void setExitList(String[] exitList) {
+		this.exitList = exitList;
+	}
 }
 

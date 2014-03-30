@@ -1,5 +1,9 @@
 package websocket.chat;
 
+import javax.websocket.EncodeException;
+import javax.websocket.Encoder;
+import javax.websocket.EndpointConfig;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -7,8 +11,7 @@ package websocket.chat;
  * @generated
  */
 
-public class PrivateMessage extends Message
-{
+public class PrivateMessage extends Message implements Encoder.Text<PrivateMessage> {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
@@ -16,7 +19,7 @@ public class PrivateMessage extends Message
 	 * @ordered
 	 */
 	
-	public final int Type = 0;
+	private final int type = Message.PRIVATE;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -40,6 +43,24 @@ public class PrivateMessage extends Message
 	protected int getType() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public String encode(PrivateMessage message) throws EncodeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void init(EndpointConfig arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
