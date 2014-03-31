@@ -6,6 +6,9 @@ public class EnvironmentMessage extends Message
 {
 	private final int type = Message.ENVIRONMENT;
 	
+
+	private String roomName;
+	
 	
 	private String roomDesc;
 
@@ -28,6 +31,14 @@ public class EnvironmentMessage extends Message
 		return type;
 	}
 
+	public String getRoomName() {
+		return roomName;
+	}
+
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
+	
 	public String getRoomDesc() {
 		return roomDesc;
 	}

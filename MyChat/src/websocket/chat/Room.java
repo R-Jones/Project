@@ -12,6 +12,8 @@ public class Room
 	
 	private String name;
 	
+	private String desc;
+	
 	
 	private List<PC> pcList;
 	

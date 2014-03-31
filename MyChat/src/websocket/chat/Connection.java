@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -35,7 +36,7 @@ import org.apache.juli.logging.LogFactory;
 
 import util.HTMLFilter;
 
-@ServerEndpoint(value = "/chat")
+@ServerEndpoint(value = "/chat", encoders = {EnvironmentMessageEncoder.class})
 public class Connection {
 
     private static final Log log = LogFactory.getLog(Connection.class);
@@ -57,6 +58,22 @@ public class Connection {
         this.session = session;
         connections.add(this);
         String message = String.format("* %s %s", nickname, "has joined.askdjalsdj");
+        EnvironmentMessage enviMessage = new EnvironmentMessage();
+        enviMessage.setExitList(new String[]{"South", "West"});
+        enviMessage.setRoomDesc("A dark stormy path");
+        enviMessage.setNpcList(new String[]{"Monkey","Cheetah"});
+        enviMessage.setPcList(new String[]{"bob", "charlie"});
+        enviMessage.setRoomName("Path");
+        try {
+			session.getBasicRemote().sendObject(enviMessage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EncodeException e) { 
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         broadcast(message);
     }
 
