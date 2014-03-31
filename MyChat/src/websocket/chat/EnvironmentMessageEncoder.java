@@ -1,8 +1,5 @@
 package websocket.chat;
 
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.Json;
 import javax.websocket.EncodeException;
 import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
@@ -12,6 +9,7 @@ public class EnvironmentMessageEncoder implements Encoder.Text<EnvironmentMessag
 	@Override
 	public String encode(EnvironmentMessage message) throws EncodeException {
 		
+		/*
 		JsonArrayBuilder encodedPClist = Json.createArrayBuilder(); 
 		JsonArrayBuilder encodedNPClist = Json.createArrayBuilder(); 
 		JsonArrayBuilder encodedExitList = Json.createArrayBuilder(); 
@@ -50,10 +48,68 @@ public class EnvironmentMessageEncoder implements Encoder.Text<EnvironmentMessag
 				.add("npcList", encodedNPClist)
 				.add("exitList", encodedExitList)
 				.build();
+		*/
+		StringBuilder encodedMessage = new StringBuilder("{");
 		
-		return encodedMessage.toString();
+		encodedMessage.append("\"type\":" + message.getType() + ",");
+		
+		encodedMessage.append("\"roomName\":\"" + message.getRoomName() + "\",");
+		
+		encodedMessage.append("\"roomDesc\":\"" + message.getRoomDesc() + "\",");
+		
+		encodedMessage.append("\"pcList\"" + ":[");
+
+		boolean firstPass = true;
+		for(String s:message.getPcList()) {
+			if(!firstPass) 
+				encodedMessage.append(",");
+			encodedMessage.append("\"" + s + "\"");
+			firstPass = false;
+		}
+		
+		encodedMessage.append("],\"npcList\":[");
+		
+		firstPass = true;
+		for(String s:message.getNpcList()) {
+			if(!firstPass) 
+				encodedMessage.append(",");
+			encodedMessage.append("\"" + s + "\"");
+			firstPass = false;
+		}
+		
+		encodedMessage.append("],\"exitList\":[");
+		
+		firstPass = true;
+		for(String s:message.getExitList()) {
+			if(!firstPass)
+				encodedMessage.append(",");
+			encodedMessage.append("\"" + s + "\"");
+			firstPass = false;
+		}
+		
+		return encodedMessage.append("]}").toString();
 	}
 
+	
+	
+/*
+	public String toJSON(Object... fields) {
+		StringBuilder jsonString = new StringBuilder("{");
+		
+		for(int i = 0;i < fields.length;i++) {
+			Object o = fields[i];
+			if(o instanceof Collection) {
+				jsonString.append("[");
+				for(Object e:(Collection) o) {
+					jsonString.append(e.toString() + )
+				}
+			}
+		}
+		
+		return jsonString.append("}").toString();
+	}
+*/
+	
 	@Override
 	public void destroy() {
 		System.out.println("EnvironmentMessage destroyed");

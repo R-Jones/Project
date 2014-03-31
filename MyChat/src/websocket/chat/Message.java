@@ -1,7 +1,5 @@
 package websocket.chat;
 
-import javax.websocket.Encoder;
-
 
 /**
  * <!-- begin-user-doc -->

@@ -57,6 +57,7 @@ public class Connection {
     public void start(Session session) {
         this.session = session;
         connections.add(this);
+        System.out.println("boo");
         String message = String.format("* %s %s", nickname, "has joined.askdjalsdj");
         EnvironmentMessage enviMessage = new EnvironmentMessage();
         enviMessage.setExitList(new String[]{"South", "West"});
