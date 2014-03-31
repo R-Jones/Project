@@ -16,16 +16,31 @@ public class EnvironmentMessageEncoder implements Encoder.Text<EnvironmentMessag
 		JsonArrayBuilder encodedNPClist = Json.createArrayBuilder(); 
 		JsonArrayBuilder encodedExitList = Json.createArrayBuilder(); 
 		
-		for(String pcName:message.getPcList()) {
-			encodedPClist.add(pcName);
+		if(message.getPcList() == null) {
+			encodedPClist.addNull();
+		}
+		else {
+			for(String pcName:message.getPcList()) {
+				encodedPClist.add(pcName);
+			}
 		}
 		
-		for(String npcName:message.getNpcList()) {
-			encodedNPClist.add(npcName);
+		if(message.getNpcList() == null) {
+			encodedNPClist.addNull();
+		}
+		else {
+			for(String npcName:message.getNpcList()) {
+				encodedNPClist.add(npcName);
+			}
 		}
 		
-		for(String exit:message.getExitList()) {
-			encodedExitList.add(exit);
+		if(message.getExitList() == null) {
+			encodedExitList.addNull(); 
+		}
+		else {
+			for(String exit:message.getExitList()) {
+				encodedExitList.add(exit);
+			}
 		}
 		
 		JsonObject encodedMessage = Json.createObjectBuilder()

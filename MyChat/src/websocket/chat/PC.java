@@ -9,6 +9,7 @@ package websocket.chat;
 
 public class PC
 {
+	private static PC pcTest = new PC();
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
@@ -43,6 +44,7 @@ public class PC
 	 */
 	public PC(){
 		super();
+		System.out.println("boo");
 	}
 
 }
