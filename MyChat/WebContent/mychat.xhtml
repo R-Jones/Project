@@ -17,10 +17,12 @@
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Apachesdfsd Tomcat WebSocket Examples: Chat</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <title>Tomcat WebSocket Examples: Chat</title>
     <style type="text/css"><![CDATA[
         body {
-    		background-image:url('clouds.jpg');
+    		background-image:url('Red_Floral_by_Daemonika.jpg');
+    		background-size:cover;
     	}
     	
     	#foo {
@@ -48,12 +50,13 @@
             overflow-y: scroll;
             padding: 5px;
             width: 100%;
-            background:#f9f9f9;
+            background:#000000;
         }
 
         #console p {
             padding: 0;
             margin: 0;
+            color:#f9f9f9;
         }
     ]]></style>
     <script type="application/javascript"><![CDATA[
@@ -80,8 +83,11 @@
                 Console.log('Info: WebSocket closed.');
             };
 
-            Chat.socket.onmessage = function (message) {
+            Chat.socket.onmessage = function (message) {            
+				
                 Console.log(message.data);
+                var obj = jQuery.parseJSON( message.data );
+				alert( obj.roomDesc );
             };
         });
 
