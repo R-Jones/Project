@@ -45,11 +45,11 @@ public class Connection {
     private static final AtomicInteger connectionIds = new AtomicInteger(0);
     private static final Set<Connection> connections = new CopyOnWriteArraySet<Connection>();
 
-    private final String nickname;
+    private final String name;
     private Session session;
 
     public Connection() {
-        nickname = GUEST_PREFIX + connectionIds.getAndIncrement();
+        name = GUEST_PREFIX + connectionIds.getAndIncrement();
     }
 
 
@@ -58,7 +58,7 @@ public class Connection {
         this.session = session;
         connections.add(this);
         System.out.println("boo");
-        String message = String.format("* %s %s", nickname, "has joined.askdjalsdj");
+        String message = String.format("* %s %s", name, "has joined.askdjalsdj");
         EnvironmentMessage enviMessage = new EnvironmentMessage();
         enviMessage.setExitList(new String[]{"South", "West"});
         enviMessage.setRoomDesc("A dark stormy path");
@@ -82,7 +82,7 @@ public class Connection {
     @OnClose
     public void end() {
         connections.remove(this);
-        String message = String.format("* %s %s", nickname, "has disconnected.");
+        String message = String.format("* %s %s", name, "has disconnected.");
         broadcast(message);
     }
 
@@ -90,8 +90,15 @@ public class Connection {
     @OnMessage
     public void onMessages(String message) {
         // Never trust the client
-        String filteredMessage = String.format("%s: %s", nickname, HTMLFilter.filter(message.toString()));
+
+        String filteredMessage = String.format("%s: %s", name, HTMLFilter.filter(message.toString()));
         broadcast(filteredMessage);
+    	Command command = new Command(name);
+    	try{
+    		command.buildCommand(message);
+    	} catch(IllegalArgumentException e) {
+    			broadcast("Error: That command doesn't exist.");
+    	}
     }
 
     
@@ -115,7 +122,7 @@ public class Connection {
                 } catch (IOException e1) {
                     // Ignore
                 }
-                String message = String.format("* %s %s", client.nickname, "has been disconnected.");
+                String message = String.format("* %s %s", client.name, "has been disconnected.");
                 broadcast(message);
             }
         }
