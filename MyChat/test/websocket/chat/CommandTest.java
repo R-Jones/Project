@@ -48,6 +48,11 @@ public class CommandTest {
 		assertTrue(command.getObject().equals("Heeeeeeey Fonzie!"));
 		assertTrue(command.getIndirectObject().equals("The Fonz"));
 		
+//		command.buildCommand("Give a dog a bone");
+//		assertTrue(command.getAction().equals(Action.GIVE));
+//		assertTrue(command.getObject().equals("bone"));
+//		assertTrue(command.getIndirectObject().equals("dog"));
+		
 		
 	}
 

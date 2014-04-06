@@ -55,10 +55,13 @@ public class Connection {
 
     @OnOpen
     public void start(Session session) {
+    	
         this.session = session;
         connections.add(this);
+        
+        
         System.out.println("boo");
-        String message = String.format("* %s %s", name, "has joined.askdjalsdj");
+        String message = String.format("* %s %s", name, "has joined.");
         EnvironmentMessage enviMessage = new EnvironmentMessage();
         enviMessage.setExitList(new String[]{"South", "West"});
         enviMessage.setRoomDesc("A dark stormy path");
@@ -97,7 +100,7 @@ public class Connection {
     	try{
     		command.buildCommand(message);
     	} catch(IllegalArgumentException e) {
-    			broadcast("Error: That command doesn't exist.");
+    			broadcast(e.toString());
     	}
     }
 
