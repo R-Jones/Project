@@ -53,6 +53,8 @@ public class EnvironmentMessageEncoder implements Encoder.Text<EnvironmentMessag
 		
 		encodedMessage.append("\"type\":" + message.getType() + ",");
 		
+		encodedMessage.append("\"roomID\":" + message.getRoomID() + ",");
+		
 		encodedMessage.append("\"roomName\":\"" + message.getRoomName() + "\",");
 		
 		encodedMessage.append("\"roomDesc\":\"" + message.getRoomDesc() + "\",");

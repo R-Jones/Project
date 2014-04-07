@@ -30,7 +30,7 @@ public class CommandTest {
 
 	@Test
 	public void testBuildCommand() {
-		Command command = new Command("Bob");
+		Command command = new Command(new PlayerCharacter("Bob"));
 		assertTrue(command.getSubject().equals("Bob"));
 		command.buildCommand("get \"a box of crayons\" from box");
 		assertTrue(command.getAction().equals(Action.GET));

@@ -2,9 +2,9 @@ package websocket.chat;
 
 import java.util.List;
 
-public class PlayerCharacter
+public class PlayerCharacter extends Mobile
 {
-	Connection connection;
+	private Connection connection;
 	
 	List<InventoryEntry> inventory;
 	
@@ -20,7 +20,13 @@ public class PlayerCharacter
 	
 	public PlayerCharacter(){
 		super();
-		System.out.println("boo");
+	}
+
+
+	public PlayerCharacter(String name) {
+
+		super();
+		this.name=name;
 	}
 
 
@@ -51,6 +57,53 @@ public class PlayerCharacter
 
 	public void setRoom(Room room) {
 		this.room = room;
+	}
+	
+	public void move(Room room) {
+		if(getRoom() != null){
+			message("You have left " + this.getRoom().getName());
+			getRoom().removePlayer(this);
+		}
+//		this.message(room.getEnvironmentMessage());
+		room.enterPlayer(this);
+	}
+	
+	public void roomLook() {
+		connection.message(this.getRoom().getEnvironmentMessage());
+	}
+	
+	public void message(String message) {
+		System.out.println(message);
+		connection.message(message);
+	}
+	
+	public Connection getConnection() {
+		return connection;
+	}
+
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+
+
+	public void message(Object message) {
+		System.out.println(message);
+		connection.message(message);
+	}
+
+
+	@Override
+	public void look() {
+		connection.message(getRoom().getEnvironmentMessage());
+	}
+
+
+	public void logoff() {
+
+		System.out.println(name + "logging off now");
+		getRoom().removePlayer(this);
+		MobileManager.removePC(name);
 	}
 
 }

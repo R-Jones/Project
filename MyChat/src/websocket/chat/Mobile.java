@@ -36,6 +36,8 @@ public abstract class Mobile {
 	public Room getRoom() {
 		return room;
 	}
+	
+	abstract public void move(Room room);
 
 
 	public void setRoom(Room room) {
@@ -48,4 +50,7 @@ public abstract class Mobile {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	abstract public void look();
 }

@@ -1,6 +1,7 @@
 package websocket.chat;
 
 import java.util.Arrays;
+import java.util.concurrent.Callable;
 
 public class Command implements Runnable {
 
@@ -8,11 +9,11 @@ public class Command implements Runnable {
 	final static int TRANSITIVE = 0b0010;
 	final static int DITRANSITIVE = 0b0100;
 	
-	public enum Action { GIVE, GET, ATTACK, USE, RECALL, PUT, WHISPER }
+	public enum Action { GIVE, GET, ATTACK, USE, RECALL, PUT, WHISPER, DIG, DESC, MOVE, LOOK }
 	
 	private Action action;
 	
-	private String subject;
+	private Mobile subject;
 	
 	private String object;
 	
@@ -20,110 +21,25 @@ public class Command implements Runnable {
 
 	private int count = 1;
 	
-	public Command(String subject) {
+	public Command(Mobile subject) {
 		this.subject = subject;
 	}
 	
 	//This still needs some work.
-	public void buildCommand(String input) throws IllegalArgumentException {
-		String[] parsedInput = input.split("\\s");
-		
-		int inputLength = parsedInput.length;
-		
-		this.clear();
-		
-		boolean preposed = false;
-		
 
-		System.out.println(Arrays.deepToString(parsedInput));
-		System.out.println(inputLength);
-		
-		try {
-			action = Action.valueOf(parsedInput[0].toUpperCase());
-		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException("Syntax Error: That command doesn't exist.");
-		}
-		System.out.println(action);
-
-		int index = 0;
-		
-		//The first word in the input is always going to be the action(the verb)
-		//At the beginning of every pass, we increment index.
-		while(++index < inputLength) {
-			
-			String s = parsedInput[index];
-			
-			//Handles quotations, i.e. whisper "Did you get my message?" to John
-			if(s.startsWith("\"")){
-				StringBuilder sb = new StringBuilder(s.substring(1));//clip off the open quote
-				boolean endQuote = false;
-				
-				while(++index < inputLength){
-					s = parsedInput[index];
-					sb.append(" " + s);
-					if(s.endsWith("\"")){
-						sb.setLength(sb.length() - 1);//clip off the end quote
-						endQuote = true;
-						break;
-					}
-				}
-				
-				if(endQuote == false) {
-					throw new IllegalArgumentException("Syntax Error: No ending quotation mark found!");
-				}
-				
-				if(preposed) {
-					 indirectObject = sb.toString();
-				}
-				else object = sb.toString();
-			}
-			
-			
-			//Take 50 dollars from safe. This will store the 50 part.
-			else if(s.matches("\\d+")) {
-				this.setCount(Integer.valueOf(s));
-			}
-			
-			
-			//Now we filter out reserved keywords before storing the first indirect/direct object we come across.
-			else switch(s.toUpperCase()) {
-				
-				case "TO":
-					preposed = true;
-					break;
-				
-				case "FROM":
-					preposed = true;
-					break;
-				
-				case "A": break;
-				
-				case "THE": break;
-				
-				case "UP": break;
-				
-				case "DOWN": break;
-				
-				case "IN": 
-					preposed = true;
-					break;
-				
-				default: 
-					System.out.println(s);
-					if(preposed == true) {
-						this.setIndirectObject(s);
-						preposed = false;
-					}
-					else {
-						this.setObject(s);
-					}
-			}
-			
-		}
-		
+	public void setAction(Action action) {
+		this.action = action;
 	}
 
-	private void clear() {
+	public void setSubject(Mobile subject) {
+		this.subject = subject;
+	}
+
+	public Command() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public void clear() {
 		object = null;
 		indirectObject = null;
 		action = null;
@@ -134,7 +50,7 @@ public class Command implements Runnable {
 		return action;
 	}
 	
-	public String getSubject() {
+	public Mobile getSubject() {
 		return subject;
 	}
 
@@ -174,9 +90,52 @@ public class Command implements Runnable {
 		this.indirectObject = indirectObject;
 	}
 
+
+	
 	@Override
-	public void run() {
+	public void run() throws IllegalArgumentException {
+	
+		switch(this.action) {
 		
+			case DIG: dig(); break;
+			
+			case ATTACK: break;
+		
+			case GET: break;
+		
+			case GIVE: break;
+		
+			case PUT: break;
+		
+			case RECALL: break;
+		
+			case USE: break;
+		
+			case WHISPER: break;
+			
+			case DESC: break;
+			
+			case MOVE: break;
+		
+			case LOOK: {
+				if(object == null) {
+					subject.look();
+				}
+				break;
+			}
+			
+			default: break;
+		
+		
+		}
+	}
+
+	public void dig() throws IllegalArgumentException {
+		Room newRoom = RoomManager.makeRoom();
+		newRoom.setName(this.getObject());
+		subject.getRoom().addExit(String.valueOf(newRoom.getRoomID()), newRoom);
+		newRoom.addExit(String.valueOf(subject.getRoom().getRoomID()), subject.getRoom());
+		subject.move(newRoom);
 	}
 	
 }

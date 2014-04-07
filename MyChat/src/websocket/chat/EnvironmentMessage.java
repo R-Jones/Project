@@ -1,5 +1,7 @@
 package websocket.chat;
 
+import java.util.Set;
+
 
 
 public class EnvironmentMessage extends Message 
@@ -13,13 +15,16 @@ public class EnvironmentMessage extends Message
 	private String roomDesc;
 
 	
-	private String[] pcList;
+	private Set<String> pcList;
 
 	
-	private String[] npcList;
+	private Set<String> npcList;
 	
 
-	private String[] exitList;
+	private Set<String> exitList;
+
+
+	private int roomID;
 	
 
 	public EnvironmentMessage(){
@@ -47,28 +52,36 @@ public class EnvironmentMessage extends Message
 		this.roomDesc = roomDesc;
 	}
 
-	public String[] getPcList() {
+	public Set<String> getPcList() {
 		return pcList;
 	}
 
-	public void setPcList(String[] pcList) {
+	public void setPcList(Set<String> pcList) {
 		this.pcList = pcList;
 	}
 
-	public String[] getNpcList() {
+	public Set<String> getNpcList() {
 		return npcList;
 	}
 
-	public void setNpcList(String[] npcList) {
+	public void setNpcList(Set<String> npcList) {
 		this.npcList = npcList;
 	}
 
-	public String[] getExitList() {
+	public Set<String> getExitList() {
 		return exitList;
 	}
 
-	public void setExitList(String[] exitList) {
+	public void setExitList(Set<String> exitList) {
 		this.exitList = exitList;
+	}
+
+	public void setRoomID(int roomID) {
+		this.roomID = roomID;
+	}
+
+	public int getRoomID() {
+		return roomID;
 	}
 }
 

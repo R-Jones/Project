@@ -6,12 +6,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RoomManager {
 	private static ConcurrentHashMap<Integer, Room> rooms;
 	private static Random random;
-	private static final int MASTERROOM = 1;
+	public static final int MASTERROOM = 1;
 	
 	static {
 		rooms = new ConcurrentHashMap<Integer, Room>();
 		random = new Random();
 		makeRoom(MASTERROOM);
+		getRoom(MASTERROOM).setDescription("One room to rule them all, One room to find them," +
+										   "One room to bring them all and in the darkness bind them.");
+		getRoom(MASTERROOM).setName("MASTERROOM");
 	}
 	
 	public static void putRoom(Integer roomID, Room room) {
@@ -23,7 +26,7 @@ public class RoomManager {
 	}
 	
 	public static Room makeRoom() {
-		Integer roomID = random.nextInt();
+		Integer roomID = random.nextInt(20000);
 		while(rooms.containsKey(roomID)) {
 			roomID = random.nextInt();
 		}
@@ -35,5 +38,9 @@ public class RoomManager {
 		room.setRoomID(roomID);
 		putRoom(roomID, room);
 		return room;
+	}
+	
+	public static void saveRoom(Integer roomID) {
+		// TODO persist the room. 
 	}
 }
