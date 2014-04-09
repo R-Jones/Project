@@ -2,6 +2,9 @@ package websocket.chat;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 public class Room extends MobileContainer
 {	

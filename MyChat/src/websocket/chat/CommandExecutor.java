@@ -3,17 +3,17 @@ package websocket.chat;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.apache.juli.logging.Log;
-import org.apache.juli.logging.LogFactory;
+//import org.apache.juli.logging.Log;
+//import org.apache.juli.logging.LogFactory;
 
 import websocket.chat.Command.Action;
 
 public class CommandExecutor {
 	
 	private static final ExecutorService executor = Executors.newFixedThreadPool(10, command -> new Thread(command));
-	private static final Log log = LogFactory.getLog(Connection.class.getName());
+//	private static final Log log = LogFactory.getLog(Connection.class.getName());
 	
-	public static void executeCommand(Mobile subject, String input) throws IllegalArgumentException {
+	public static Command buildCommand(Mobile subject, String input) throws IllegalArgumentException {
 		Command command = new Command();
 		
 		command.setSubject(subject);
@@ -21,8 +21,6 @@ public class CommandExecutor {
 		String[] parsedInput = input.split("\\s");
 		
 		int inputLength = parsedInput.length;
-		
-		command.clear();
 		
 		boolean preposed = false;
 
@@ -106,8 +104,8 @@ public class CommandExecutor {
 					}
 			}	
 		}
-		log.info(command.getAction());
-		executor.execute(command);
+//		log.info(command.getAction());
+		return command;
 	}
 	
 	public static void executeCommand(Command command) {

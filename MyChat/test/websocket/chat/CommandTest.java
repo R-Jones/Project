@@ -30,20 +30,20 @@ public class CommandTest {
 
 	@Test
 	public void testBuildCommand() {
-		Command command = new Command(new PlayerCharacter("Bob"));
-		assertTrue(command.getSubject().equals("Bob"));
-		command.buildCommand("get \"a box of crayons\" from box");
+		PlayerCharacter bob = new PlayerCharacter("Bob");
+		Command command = CommandExecutor.buildCommand(bob, "get \"a box of crayons\" from box");
+		assertTrue(command.getSubject().equals(bob));
 		assertTrue(command.getAction().equals(Action.GET));
 		assertTrue(command.getObject().equals("a box of crayons"));
 		assertTrue(command.getIndirectObject().equals("box"));
 		
-		command.buildCommand("put 50 pennies in the \"vending machine\"");
+		command = CommandExecutor.buildCommand(new PlayerCharacter("Ben"), "put 50 pennies in the \"vending machine\"");
 		assertTrue(command.getAction().equals(Action.PUT));
 		assertTrue(command.getCount() == 50);
 		assertTrue(command.getObject().equals("pennies"));
 		assertTrue(command.getIndirectObject().equals("vending machine"));
 		
-		command.buildCommand("Whisper \"Heeeeeeey Fonzie!\" to \"The Fonz\"");
+		command = CommandExecutor.buildCommand(new PlayerCharacter("Jeffrey"), "Whisper \"Heeeeeeey Fonzie!\" to \"The Fonz\"");
 		assertTrue(command.getAction().equals(Action.WHISPER));
 		assertTrue(command.getObject().equals("Heeeeeeey Fonzie!"));
 		assertTrue(command.getIndirectObject().equals("The Fonz"));

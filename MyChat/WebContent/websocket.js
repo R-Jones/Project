@@ -52,9 +52,9 @@
 
         Chat.initialize = function() {
             if (window.location.protocol == 'http:') {
-                Chat.connect('ws://' + window.location.host + '/MyChat/chat');
+                Chat.connect('ws://' + window.location.host + '/MyProject/chat');
             } else {
-                Chat.connect('wss://' + window.location.host + '/MyChat/chat');
+                Chat.connect('wss://' + window.location.host + '/MyProject/chat');
             }
         };
 

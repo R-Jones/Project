@@ -21,6 +21,7 @@ package websocket.chat;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -29,15 +30,23 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import org.apache.juli.logging.Log;
-import org.apache.juli.logging.LogFactory;
+
+
+
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 
 import util.HTMLFilter;
 
 @ServerEndpoint(value = "/chat", encoders = {EnvironmentMessageEncoder.class})
 public class Connection {
 
-    private static final Log log = LogFactory.getLog(Connection.class.getName());
+    private static final Logger log;
+    
+    static { 
+    	log = Logger.getLogger(Connection.class.getName());
+    	BasicConfigurator.configure(); 
+    	}
 
     private static final String GUEST_PREFIX = "Guest";
     private static final AtomicInteger connectionIds = new AtomicInteger(0);
@@ -80,10 +89,12 @@ public class Connection {
     public void onMessages(String message) {
         // Never trust the client
 
+    	Command command;
         String filteredMessage = String.format("%s: %s", name, HTMLFilter.filter(message.toString()));
         broadcast(filteredMessage);
     	try{
-    		CommandExecutor.executeCommand(character, message);
+    		command = CommandExecutor.buildCommand(character, message);
+    		CommandExecutor.executeCommand(command);
     	} catch(IllegalArgumentException e) {
     			broadcast(e.toString());
     	}

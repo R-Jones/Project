@@ -2,6 +2,9 @@ package websocket.chat;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import javax.websocket.EncodeException;
 
 import org.junit.BeforeClass;
@@ -16,9 +19,9 @@ public class EnvironmentMessageEncoderTest {
 		message = new EnvironmentMessage();
 		message.setRoomName("In the forest");
 		message.setRoomDesc("There are trees....trees everywhere! Oh god, the humanity!");
-		message.setPcList(new String[]{"Aerith", "Bob", "Roger", "Jeremy"});
-		message.setNpcList(new String[]{"A gopher", "A gnat", "A barber"});
-		message.setExitList(new String[]{"south", "west", "north", "east"});
+		message.setPcList(new HashSet<String>(Arrays.asList(new String[]{"Aerith", "Bob", "Roger", "Jeremy"})));
+		message.setNpcList(new HashSet<String>(Arrays.asList(new String[]{"A gopher", "A gnat", "A barber"})));
+		message.setExitList(new HashSet<String>(Arrays.asList(new String[]{"south", "west", "north", "east"})));
 	}
 
 	@Test
