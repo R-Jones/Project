@@ -1,23 +1,37 @@
 package websocket.chat;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 
 public class Room extends MobileContainer
 {	
+
 	private int roomID;
 	
+
 	private String name;
 	
 	private String description;
 	
+
 	private Map<String, Room> exits = new ConcurrentHashMap<>();
 	
+
 	private ConcurrentHashMap<String, PlayerCharacter> PCs = new ConcurrentHashMap<>();
 	
+
 	private ConcurrentHashMap<String, NonPlayerCharacter> NPCs = new ConcurrentHashMap<>();
 	
 	public Room(){
