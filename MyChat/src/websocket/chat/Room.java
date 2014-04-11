@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 /**
@@ -31,7 +34,7 @@ public class Room implements Serializable {
 
 	//bi-directional many-to-one association to Exit
 	@OneToMany(mappedBy="origin")
-	private Set<Exit> exits = new HashSet<Exit>();
+	private List<Exit> exits = new CopyOnWriteArrayList<Exit>();
 	
 	@Transient
 	private ConcurrentHashMap<String, PlayerCharacter> PCs = new ConcurrentHashMap<>();
@@ -58,11 +61,11 @@ public class Room implements Serializable {
 		this.name = name;
 	}
 
-	public Set<Exit> getExits() {
+	public List<Exit> getExits() {
 		return this.exits;
 	}
 
-	public void setExits(Set<Exit> exits) {
+	public void setExits(List<Exit> exits) {
 		this.exits = exits;
 	}
 

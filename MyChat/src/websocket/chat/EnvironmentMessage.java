@@ -1,5 +1,6 @@
 package websocket.chat;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -21,7 +22,7 @@ public class EnvironmentMessage extends Message
 	private Set<String> npcList;
 	
 
-	private Set<Exit> exitList;
+	private List<Exit> exitList;
 
 
 	private int roomID;
@@ -68,12 +69,12 @@ public class EnvironmentMessage extends Message
 		this.npcList = npcList;
 	}
 
-	public Set<Exit> getExitList() {
+	public List<Exit> getExitList() {
 		return exitList;
 	}
 
-	public void setExitList(Set<Exit> exitList) {
-		this.exitList = exitList;
+	public void setExitList(List<Exit> exits) {
+		this.exitList = exits;
 	}
 
 	public void setRoomID(int roomID) {
