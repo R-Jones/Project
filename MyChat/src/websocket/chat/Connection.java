@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -29,9 +32,6 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-
-
-
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
@@ -55,9 +55,12 @@ public class Connection {
     private final String name;
     private final PlayerCharacter character;
     private Session session;
+    
+
+	EntityManager entityManager;
 
     public Connection() {
-        name = GUEST_PREFIX + connectionIds.getAndIncrement();
+    	name = GUEST_PREFIX + connectionIds.getAndIncrement();
         character = MobileManager.makePC(name);
         character.setConnection(this);
         connections.put(name, this);
@@ -68,6 +71,7 @@ public class Connection {
     public void start(Session session) {
     	
         this.session = session;
+
         character.move(RoomManager.getRoom(RoomManager.MASTERROOM));
         
         String message = String.format("* %s %s", name, "has joined.");
@@ -87,6 +91,8 @@ public class Connection {
 
     @OnMessage
     public void onMessages(String message) {
+//    	SessionFactory sf = HibernateUtil.getSessionFactory();
+    	EntityManagerFactory en = Persistence.createEntityManagerFactory("MyProject");
         // Never trust the client
 
     	Command command;

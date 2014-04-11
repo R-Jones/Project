@@ -1,67 +1,85 @@
 package websocket.chat;
+
 import java.io.Serializable;
-import java.util.Map;
+
+import javax.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.MapKey;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
+/**
+ * The persistent class for the rooms database table.
+ * 
+ */
+@Entity
+@Table(name="rooms")
+@NamedQuery(name="Room.findAll", query="SELECT r FROM Room r")
+public class Room implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-public class Room extends MobileContainer
-{	
-
-	private int roomID;
-	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="room_id")
+	private int roomId;
 
 	private String name;
 	
+	@Column(name = "description")
 	private String description;
-	
 
-	private Map<String, Room> exits = new ConcurrentHashMap<>();
+	//bi-directional many-to-one association to Exit
+	@OneToMany(mappedBy="origin")
+	private Set<Exit> exits = new HashSet<Exit>();
 	
-
+	@Transient
 	private ConcurrentHashMap<String, PlayerCharacter> PCs = new ConcurrentHashMap<>();
 	
-
+	@Transient
 	private ConcurrentHashMap<String, NonPlayerCharacter> NPCs = new ConcurrentHashMap<>();
-	
-	public Room(){
-		super();
-	}
-	
-	public Room(String name) {
-		this.setName(name);
-	}
-	
-	public void addExit(String exitName, Room target) {
-		exits.put(exitName, target);
+
+	public Room() {
 	}
 
-	public int getRoomID() {
-		return roomID;
+	public int getRoomId() {
+		return this.roomId;
 	}
 
-	public void setRoomID(int roomID) {
-		this.roomID = roomID;
+	public void setRoomId(int roomId) {
+		this.roomId = roomId;
 	}
-	
+
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	public Set<Exit> getExits() {
+		return this.exits;
+	}
+
+	public void setExits(Set<Exit> exits) {
+		this.exits = exits;
+	}
+
+	public Exit addExit(Exit exit) {
+		getExits().add(exit);
+		exit.setOrigin(this);
+
+		return exit;
+	}
+
+	public Exit removeExit(Exit exit) {
+		getExits().remove(exit);
+		exit.setOrigin(null);
+
+		return exit;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
@@ -100,15 +118,15 @@ public class Room extends MobileContainer
 	
 	public EnvironmentMessage getEnvironmentMessage() {
 		EnvironmentMessage enviMessage = new EnvironmentMessage();
-		enviMessage.setExitList(exits.keySet());
+		enviMessage.setExitList(exits);
         enviMessage.setRoomDesc(this.getDescription());
         enviMessage.setNpcList(NPCs.keySet());
         enviMessage.setPcList(PCs.keySet());
-        enviMessage.setRoomID(this.getRoomID());
+        enviMessage.setRoomID(this.getRoomId());
         enviMessage.setRoomName(this.getName());
         
         System.out.println(PCs.keySet().toString());
         return enviMessage;
 	}
-}
 
+}

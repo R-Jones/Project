@@ -21,7 +21,7 @@ public class EnvironmentMessageEncoderTest {
 		message.setRoomDesc("There are trees....trees everywhere! Oh god, the humanity!");
 		message.setPcList(new HashSet<String>(Arrays.asList(new String[]{"Aerith", "Bob", "Roger", "Jeremy"})));
 		message.setNpcList(new HashSet<String>(Arrays.asList(new String[]{"A gopher", "A gnat", "A barber"})));
-		message.setExitList(new HashSet<String>(Arrays.asList(new String[]{"south", "west", "north", "east"})));
+//		message.setExitList(new HashSet<String>(Arrays.asList(new String[]{"south", "west", "north", "east"})));
 	}
 
 	@Test

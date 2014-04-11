@@ -82,10 +82,10 @@ public class EnvironmentMessageEncoder implements Encoder.Text<EnvironmentMessag
 		encodedMessage.append("],\"exitList\":[");
 		
 		firstPass = true;
-		for(String s:message.getExitList()) {
+		for(Exit s:message.getExitList()) {
 			if(!firstPass)
 				encodedMessage.append(",");
-			encodedMessage.append("\"" + s + "\"");
+			encodedMessage.append("\"" + s.getName() + "\"");
 			firstPass = false;
 		}
 		

@@ -21,7 +21,7 @@ public class EnvironmentMessage extends Message
 	private Set<String> npcList;
 	
 
-	private Set<String> exitList;
+	private Set<Exit> exitList;
 
 
 	private int roomID;
@@ -68,11 +68,11 @@ public class EnvironmentMessage extends Message
 		this.npcList = npcList;
 	}
 
-	public Set<String> getExitList() {
+	public Set<Exit> getExitList() {
 		return exitList;
 	}
 
-	public void setExitList(Set<String> exitList) {
+	public void setExitList(Set<Exit> exitList) {
 		this.exitList = exitList;
 	}
 

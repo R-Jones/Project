@@ -1,6 +1,7 @@
-package model;
+package websocket.chat;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 

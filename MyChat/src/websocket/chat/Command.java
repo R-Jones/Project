@@ -133,8 +133,15 @@ public class Command implements Runnable {
 	public void dig() throws IllegalArgumentException {
 		Room newRoom = RoomManager.makeRoom();
 		newRoom.setName(this.getObject());
-		subject.getRoom().addExit(String.valueOf(newRoom.getRoomID()), newRoom);
-		newRoom.addExit(String.valueOf(subject.getRoom().getRoomID()), subject.getRoom());
+		Exit newExit = new Exit();
+		newExit.setName(String.valueOf(subject.getRoom().getRoomId()));
+		newExit.setDestination(newRoom);
+		newExit.setOrigin(subject.getRoom());
+		subject.getRoom().addExit(newExit);
+		
+//		subject.getRoom().addExit(String.valueOf(newRoom.getRoomId()), newRoom);
+//		newRoom.addExit(String.valueOf(subject.getRoom().getRoomId()), subject.getRoom());
+		
 		subject.move(newRoom);
 	}
 	
