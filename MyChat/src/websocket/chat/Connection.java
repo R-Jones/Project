@@ -37,6 +37,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import util.HTMLFilter;
+import websocket.chat.Command.Action;
 
 @ServerEndpoint(value = "/chat", encoders = {EnvironmentMessageEncoder.class})
 public class Connection {
@@ -72,7 +73,14 @@ public class Connection {
     	
         this.session = session;
 
-        character.move(RoomManager.getRoom(RoomManager.MASTERROOM));
+        Command command = new Command();
+        
+        command.setAction(Action.MOVE);
+        command.setObject("1");
+        command.setSubject(character);
+        command.execute();
+        
+//        character.move(RoomManager.getRoom(RoomManager.MASTERROOM));
         
         String message = String.format("* %s %s", name, "has joined.");
 
@@ -95,12 +103,12 @@ public class Connection {
     	EntityManagerFactory en = Persistence.createEntityManagerFactory("MyProject");
         // Never trust the client
 
-    	Command command;
+    	Command command = new Command();
         String filteredMessage = String.format("%s: %s", name, HTMLFilter.filter(message.toString()));
         broadcast(filteredMessage);
     	try{
-    		command = CommandExecutor.buildCommand(character, message);
-    		CommandExecutor.executeCommand(command);
+    		command.buildCommand(character, message);
+    		command.execute();
     	} catch(IllegalArgumentException e) {
     			broadcast(e.toString());
     	}
