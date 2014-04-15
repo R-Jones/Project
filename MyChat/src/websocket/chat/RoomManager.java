@@ -67,7 +67,7 @@ public class RoomManager {
 
 //		Query query = myEntityManager.createNamedQuery("Room.findAll");
 	
-		Query query = myEntityManager.createQuery("");
+		Query query = myEntityManager.createQuery("select r from Room r", Room.class);
 		
 //		List<Room> resultList = myEntityManager.createQuery("SELECT r FROM Room r", Room.class).getResultList();
 		
