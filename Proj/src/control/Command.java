@@ -348,8 +348,6 @@ public class Command implements Runnable {
 		this.setting = room;
 		return this;
 	}
-
-
 	
 	public Command setSubject(Player subject) {
 		this.subject = subject;
