@@ -16,6 +16,7 @@ import entities.RoomManager;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
+import client.Client;
 import client.EnvironmentMessage;
 
 public class Command implements Runnable {
@@ -28,6 +29,8 @@ public class Command implements Runnable {
 
 	private static RoomManager roomManager = new RoomManager();
 	private static PlayerManager playerManager = new PlayerManager();
+	
+	private static final Logger log = Logger.getLogger(Client.class.getName());
 	
 //	private static final ExecutorService executor = Executors.newFixedThreadPool(10, command -> new Thread(command));
 
@@ -43,6 +46,7 @@ public class Command implements Runnable {
 	public static void initialize() {
 		roomManager = new RoomManager();
 		playerManager = new PlayerManager();
+    	BasicConfigurator.configure(); 
 	}
 
 	private Action action;
@@ -253,12 +257,9 @@ public class Command implements Runnable {
 				
 				origin.removePlayer(subject);
 
+				broadcast(subject.getName() + " has left the room.");
 				
-				//TODO Broadcast should exist in Command, not in Room.
-				//Though maybe this is justified? ...maybe?
-				origin.broadcast(subject.getName() + " has left the room.");
-				
-				destination.broadcast(subject.getName() + " has entered the room.");
+				broadcast(subject.getName() + " has entered the room.");
 				
 				destination.addPlayer(subject);
 				subject.setRoom(destination);
@@ -292,21 +293,19 @@ public class Command implements Runnable {
 			case CONNECT: case LOGIN: login(); break;
 			case LOGOFF: logoff();
 			
-			
 			case CREATE: {
 				//TODO Don't store the passwords as plain text in the database!
 				//TODO It would probably be better to have an Https servlet handling password based stuff.
 				
-				System.err.println("kdsjflds");
 				try {
 					playerManager.createPlayer(indirectObject, object);//Exception is thrown if it fails
 				} catch (Exception e) {
 					e.printStackTrace();
-					subject.message(e.toString());
+					subject.getClient().message(e.toString());
 					return;
 				}
 				
-				subject.message("New character created! Use LOGIN to now log into your new character");
+				subject.getClient().message("New character created! Use LOGIN to now log into your new character");
 			}
 			
 			default: {
@@ -381,6 +380,7 @@ public class Command implements Runnable {
 			}
 		}
 		
+		look();
 		
 	}
 
@@ -394,6 +394,8 @@ public class Command implements Runnable {
 		roomManager.addExit(setting, newRoom);
 		roomManager.addExit(newRoom, setting);
 		
+		look();
+		
 	}
 
 	private void login() {
@@ -406,8 +408,9 @@ public class Command implements Runnable {
 			
 			//TODO Putting new logins in the master room for now...
 			p.setRoom(roomManager.getRoom(1L));
-			p.getRoom().broadcast(p.getName() + " has entered the room.");
-			p.message("Welcome," + p.getName() + "!");
+			setSetting(p.getRoom());
+			broadcast(p.getName() + " has entered the room.");
+			p.getClient().message("Welcome," + p.getName() + "!");
 			p.getRoom().addPlayer(p);
 			
 			
@@ -415,6 +418,14 @@ public class Command implements Runnable {
 			e.printStackTrace();
 			subject.getClient().message(e.toString());
 		}
+	}
+
+	private void broadcast(String string) {
+
+		for(Player p:getSetting().getPlayerList().values()) {
+			p.getClient().message(string);
+		}
+		
 	}
 
 	private void logoff() {

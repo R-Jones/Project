@@ -90,7 +90,7 @@ public class RoomManager {
 		Exit exit = new Exit();
 		exit.setRoomId(origin.getRoomId());
 		exit.setDestination(destination.getRoomId());
-		exit.setName("Room" + String.valueOf(exit.getDestination()));
+		exit.setName("room" + String.valueOf(exit.getDestination()));
 		
 		EntityManager em = emf.createEntityManager();
 

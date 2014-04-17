@@ -70,23 +70,4 @@ public class Player implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public void move(Room room) {
-			if(getRoom() != null){
-				message("You have left " + this.getRoom().getName());
-				getRoom().removePlayer(this);
-			}
-	//		this.message(room.getEnvironmentMessage());
-			room.addPlayer(this);
-	}
-
-	public void message(String message) {
-		System.out.println(message);
-		client.message(message);
-	}
-
-	public void message(Object message) {
-		System.out.println(message);
-		client.message(message);
-	}
 }

@@ -3,8 +3,6 @@ package client;
 import java.util.List;
 import java.util.Set;
 
-
-
 public class EnvironmentMessage
 {
 	public final int ENVIRONMENTMESSAGE = 1;

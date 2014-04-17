@@ -32,6 +32,7 @@ public class Room implements Serializable {
 
 	private String name = "Name me!";
 	
+	//TODO This really IS transient...I just need to learn how to use JPA properly.
 	@Transient
 	private Map<String, Exit> exits = new ConcurrentHashMap<String, Exit>();
 	
@@ -71,12 +72,6 @@ public class Room implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public void broadcast(String message) {
-		for(Player p:playerList.values()) {
-			p.message(message);
-		}
 	}
 
 	public void addPlayer(Player pc) {
