@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>Tomcat WebSocket Examples: Chat</title>
+    <link rel="stylesheet" type="text/css" href="clientstyle.css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script src = "websocket.js"></script>
+</head>
+<body>
+<div class="noscript"><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websockets rely on Javascript being enabled. Please enable
+    Javascript and reload this page!</h2></div>
+
+<div class = "draggable">
+<ul id = "playerList"></ul>
+</div>
+
+<div class = "draggable">
+<ul id = "exitList"></ul>
+</div>
+
+<div id = "foo" class = "draggable">
+    <div id="console-container">
+        <div id="console"/>
+    </div>
+    <p>
+        <input type="text" placeholder="type and press enter to chat" id="chat" />
+    </p>
+</div>
+</body>
+</html>

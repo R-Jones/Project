@@ -1,0 +1,60 @@
+@CHARSET "UTF-8";
+
+ body {
+    		background:url('Red_Floral_by_Daemonika.jpg') fixed no-repeat;
+    		background-size:100% 100%;
+    	}
+    	
+    	#exitList, #playerList {
+    		background:black;
+    		color:white;	
+    	}
+    	
+    	#foo {
+    		position:absolute;
+    		top:15%;
+    		left:15%;
+    		width:70%;
+    		height:70%;
+    	}
+        
+        input#chat {
+            width: 100%
+        }
+
+        #console-container {
+            height:100%;
+        }
+
+        #console {
+        	opacity:0.9;
+            border: 1px solid #CCCCCC;
+            border-right-color: #999999;
+            border-bottom-color: #999999;
+            height: 100%;
+            overflow-y: scroll;
+            padding: 5px;
+            width: 100%;
+            background:#000000;
+        }
+
+        #console p {
+            padding: 0;
+            margin: 0;
+            color:#f9f9f9;
+        }
+        
+        p, h1
+{
+-webkit-animation:myfirst 50s infinite; /* Chrome, Safari, Opera */
+-webkit-animation-timing-function:linear;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes myfirst
+{
+0%   {color:red;}
+33%  {color:yellow;}
+66%  {color:blue;}
+100% {color:red;}
+}
