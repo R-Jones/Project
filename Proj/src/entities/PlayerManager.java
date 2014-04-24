@@ -56,8 +56,6 @@ public class PlayerManager {
 	
 	public Player loadPlayer(String name, String password) {
 		
-		System.out.println("Player Count:" + players.size());
-		
 		EntityManager em = emf.createEntityManager();
 		
 		Password pw = em.find(Password.class, name);
@@ -72,7 +70,7 @@ public class PlayerManager {
 		}	
 		
 		Player p = em.find(Player.class, name);
-		System.out.println(p.getDescription());
+
 		players.put(name, p);
 		
 		return p;

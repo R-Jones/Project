@@ -45,24 +45,30 @@ public class Client {
     @OnOpen
     public void start(Session session) {    	
         this.session = session;
-    	character.setClient(this);    	
+    	character.setClient(this);    
+    	try {
+			session.getBasicRemote().sendText(
+					"{\"type\":0,\"message\":\"Welcome! Create a new character with \\\"create name password\\\" "
+					+ "or log in with \\\"connect name password\\\"\"}");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
     @OnClose
     public void end() {
         if(character.getName() != null) {
-        	new Command().setSubject(character).setAction(Action.LOGOFF).execute();
+        	new Command(character).setAction(Action.LOGOFF).execute();
         }
     }
 
     @OnMessage
     public void onMessages(String message) {
 
-    	System.out.println("Message received");
-    	Command command = new Command();
+    	Command command = new Command(character);
     	try{
     		//TODO HTMLFilter.filter(message.toString())
-    		command.buildCommand(character, message).execute();
+    		command.buildCommand(message).execute();
     	} catch(Exception e) {
     			message(e.getMessage());
     	}
@@ -71,7 +77,7 @@ public class Client {
     @OnError
     public void onError(Throwable t) throws Throwable {
     	if(character.getName() != null) {
-            new Command().setSubject(character).setAction(Action.LOGOFF).execute();
+            new Command(character).setAction(Action.LOGOFF).execute();
         }
     }
 
@@ -84,8 +90,9 @@ public class Client {
     }
     
     public void message(String message) {
+    	System.err.println(message);
     	try {
-			session.getBasicRemote().sendText(message);
+			session.getBasicRemote().sendText("{\"type\":0,\"message\":\"" + message + "\"}");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

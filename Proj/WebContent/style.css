@@ -6,11 +6,15 @@ body {
 }
 
 #window {
+	
+	left:100px;
+	top:100px;
     height:750px;
     width:1500px;
---    border: black 1px solid;
+    border: white 1px solid;
     position: relative;
-    background:white;
+    background:black;
+    color:white;
 }
 
 div div { 
@@ -18,7 +22,7 @@ div div {
 }
 
 #leftside {
-    border-right:black 1px solid;
+    border-right:white 1px solid;
     width:20%;
     height:100%;
     left:0px;
@@ -35,7 +39,7 @@ div div {
 #roomcontainer {
     height:33%;
     width:100%;
-    border-bottom:black 1px solid;
+    border-bottom:white 1px solid;
 }
 
 #personcontainer {
@@ -49,7 +53,7 @@ div div {
     top:0px;
     width:100%;
     height:75%;
-    border-bottom:black 1px solid;
+    border-bottom:white 1px solid;
     padding:2px;
 	overflow:auto;
 }
@@ -62,7 +66,7 @@ div div {
     bottom:10%;
     height:15%;
     width:100%;
-    border-bottom:black 1px solid;
+    border-bottom:white 1px solid;
 }
 
 #chatcontainer {
@@ -115,12 +119,28 @@ div div {
 }
 
 #roomname {
+	
+    text-align:center;
     margin:0;
-    border-bottom:black 1px solid;
+    border-bottom:white 1px solid;
     padding:5px;
 }
 
 #roomdesc {
     margin:0;
     padding:5px;
+}
+
+p, li {
+	-webkit-animation:myfirst 50s infinite; /* Chrome, Safari, Opera */
+	-webkit-animation-timing-function:linear;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes myfirst
+{
+	0%   {color:red;}
+	33%  {color:yellow;}
+	66%  {color:blue;}
+	100% {color:red;}
 }

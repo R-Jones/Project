@@ -34,7 +34,7 @@
             }
 
             Chat.socket.onopen = function () {
-                Console.log('Info: WebSocket connection opened.');
+                Console.log('Connection opened.');
                 document.getElementById('chat').onkeydown = function(event) {
                     if (event.keyCode == 13) {
                         Chat.sendMessage();
@@ -44,40 +44,45 @@
 
             Chat.socket.onclose = function () {
                 document.getElementById('chat').onkeydown = null;
-                Console.log('Info: WebSocket closed.');
+                Console.log('Connection lost');
             };
 
             Chat.socket.onmessage = function (message) {
-                Console.log(message.data);
+
                  var obj = JSON.parse(message.data);
-                 
-             	var playerList = document.getElementById('personlist');
-             	
-             	while (playerList.hasChildNodes()) {
-             	    playerList.removeChild(playerList.lastChild);
-             	}
-                for (var i = 0;i < obj.pcList.length;i++) {
-                	var player = document.createElement('li');
-                	player.innerHTML = obj.pcList[i];
-                	playerList.appendChild(player);
-                }
+
+                 if(obj.type === 1) {
                 
-                var exitList = document.getElementById('exitlist');
+                	 var playerList = document.getElementById('personlist');
+             	
+                	 while (playerList.hasChildNodes()) {
+                		 playerList.removeChild(playerList.lastChild);
+                	 }
+                	 for (var i = 0;i < obj.pcList.length;i++) {
+                		 var player = document.createElement('li');
+                		 player.innerHTML = obj.pcList[i];
+                		 playerList.appendChild(player);
+                	 }
+                
+                	 var exitList = document.getElementById('exitlist');
                
-             	while (exitList.hasChildNodes()) {
-             	    exitList.removeChild(exitList.lastChild);
-             	}
+                	 while (exitList.hasChildNodes()) {
+                		 exitList.removeChild(exitList.lastChild);
+                	 }
              	
-                for (var j = 0;j < obj.exitList.length;j++) {
-                	var exit = document.createElement('li');
-                	exit.innerHTML = obj.exitList[j];
-                	exitList.appendChild(exit);
-                }
+                	 for (var j = 0;j < obj.exitList.length;j++) {
+                		 var exit = document.createElement('li');
+                		 exit.innerHTML = obj.exitList[j];
+                		 exitList.appendChild(exit);
+                	 }
                 
-                document.getElementById('roomdesc').innerHTML = obj.roomDesc;
+                	 document.getElementById('roomdesc').innerHTML = obj.roomDesc;
                 
-                document.getElementById('roomname').innerHTML = obj.roomName;
-                
+                	 document.getElementById('roomname').innerHTML = obj.roomName;
+                 }
+                 else {
+                     Console.log(obj.message);
+                 }
             };
         });
 
@@ -105,7 +110,7 @@
             p.style.wordWrap = 'break-word';
             p.innerHTML = message;
             console.appendChild(p);
-            while (console.childNodes.length > 25) {
+            while (console.childNodes.length > 100) {
                 console.removeChild(console.firstChild);
             }
             console.scrollTop = console.scrollHeight;
